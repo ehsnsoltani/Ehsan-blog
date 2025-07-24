@@ -11,6 +11,7 @@ from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship
 from flask_login import UserMixin, login_user, LoginManager, login_required, current_user, logout_user
 from forms import CreatePostForm, RegisterForm, LoginForm, CommentForm
+from telethon import TelegramClient
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '8BYkEfBA6O6donzWlSihBXox7C0sKR6b'
@@ -256,6 +257,14 @@ def delete_post(post_id):
     db.session.commit()
     return redirect(url_for('get_all_posts'))
 
+
+
+@app.route("/bot")
+def telegram():
+    api_id = 25790013
+    api_hash = "6a121918dd0424a943123b9d55071591"
+    with TelegramClient("me", api_id, api_hash) as client:
+        client.loop.run_until_complete(client.send_message('me', 'Hello, myself!'))
 
 
 
